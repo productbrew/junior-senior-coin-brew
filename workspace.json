@@ -50,10 +50,99 @@
           }
         }
       }
+    },
+    "crypto-like": {
+      "root": "apps/crypto-like",
+      "sourceRoot": "apps/crypto-like/src",
+      "projectType": "application",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/web:build",
+          "options": {
+            "outputPath": "dist/apps/crypto-like",
+            "index": "apps/crypto-like/src/index.html",
+            "main": "apps/crypto-like/src/main.tsx",
+            "polyfills": "apps/crypto-like/src/polyfills.ts",
+            "tsConfig": "apps/crypto-like/tsconfig.app.json",
+            "assets": [
+              "apps/crypto-like/src/favicon.ico",
+              "apps/crypto-like/src/assets"
+            ],
+            "styles": [],
+            "scripts": [],
+            "webpackConfig": "@nrwl/react/plugins/webpack"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/crypto-like/src/environments/environment.ts",
+                  "with": "apps/crypto-like/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/web:dev-server",
+          "options": {
+            "buildTarget": "crypto-like:build"
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "crypto-like:build:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/crypto-like/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/crypto-like/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   },
   "cli": {
     "defaultCollection": "@nrwl/express"
   },
-  "defaultProject": "test"
+  "defaultProject": "test",
+  "schematics": {
+    "@nrwl/react": {
+      "application": {
+        "style": "@emotion/styled",
+        "linter": "eslint",
+        "babel": true
+      },
+      "component": {
+        "style": "@emotion/styled"
+      },
+      "library": {
+        "style": "@emotion/styled",
+        "linter": "eslint"
+      }
+    }
+  }
 }
