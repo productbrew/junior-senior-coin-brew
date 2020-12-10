@@ -25,6 +25,9 @@
   "projects": {
     "graphql-server": {
       "tags": []
+    },
+    "coin-brew": {
+      "tags": []
     }
   }
 }
