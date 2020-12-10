@@ -1,0 +1,41 @@
+version: 2.1
+
+restore_dependencies_cache: &restore_dependencies_cache
+  restore_cache:
+    keys:
+      - v1-dependencies-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}
+
+install_dependencies: &install_dependencies
+  run:
+    name: Install dependencies
+    command: yarn install
+
+save_dependencies_cache: &save_dependencies_cache
+  save_cache:
+    paths:
+      - node_modules
+    key: v1-dependencies-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}
+
+jobs:
+  test-affected:
+    docker:
+      - image: circleci/node
+    steps:
+      - checkout
+      - *restore_dependencies_cache
+      - *install_dependencies
+      - *save_dependencies_cache
+      - run:
+          name: Run tests
+          command: yarn affected:test
+      - run:
+          name: Build affected apps
+          command: yarn affected:build
+      - run:
+          name: Check formatting
+          command: yarn format:check
+
+workflows:
+  tests:
+    jobs:
+      - test-affected
