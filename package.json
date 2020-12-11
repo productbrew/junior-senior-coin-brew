@@ -30,6 +30,7 @@
     "@emotion/core": "10.0.28",
     "@emotion/styled": "10.0.27",
     "@nexus/schema": "^0.19.2",
+    "antd": "^4.9.2",
     "document-register-element": "1.13.1",
     "express": "4.17.1",
     "fastify": "^3.9.1",
