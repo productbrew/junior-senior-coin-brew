@@ -28,6 +28,9 @@
     },
     "coin-brew": {
       "tags": []
+    },
+    "nomics-client": {
+      "tags": []
     }
   }
 }

@@ -2,6 +2,14 @@
 ### Do not make changes to this file directly
 
 
+type Coin {
+  currency: String
+  id: ID
+  logo_url: String
+  price: String
+}
+
 type Query {
+  coins: [Coin]
   hello(name: String): String
 }

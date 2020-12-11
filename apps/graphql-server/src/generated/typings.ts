@@ -26,6 +26,12 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  Coin: { // root type
+    currency?: string | null; // String
+    id?: string | null; // ID
+    logo_url?: string | null; // String
+    price?: string | null; // String
+  }
   Query: {};
 }
 
@@ -40,13 +46,27 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
+  Coin: { // field return type
+    currency: string | null; // String
+    id: string | null; // ID
+    logo_url: string | null; // String
+    price: string | null; // String
+  }
   Query: { // field return type
+    coins: Array<NexusGenRootTypes['Coin'] | null> | null; // [Coin]
     hello: string | null; // String
   }
 }
 
 export interface NexusGenFieldTypeNames {
+  Coin: { // field return type name
+    currency: 'String'
+    id: 'ID'
+    logo_url: 'String'
+    price: 'String'
+  }
   Query: { // field return type name
+    coins: 'Coin'
     hello: 'String'
   }
 }
