@@ -1,48 +1,52 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { List, Card, Layout } from 'antd';
+import { Layout, Modal, Button } from 'antd';
+import Loading from './loading';
+import { useQuery } from 'urql';
 const { Header, Content } = Layout;
 
-const data = [
-  {
-    title: 'BTC',
-  },
-  {
-    title: 'ETH',
-  },
-  {
-    title: 'XRP',
-  },
-  {
-    title: 'HOLLY',
-  },
-  {
-    title: 'USDT',
-  },
-  {
-    title: 'XDAI',
-  },
-];
+const MeQuery = `
+  query me{
+    me {
+      id
+      name
+      email
+    }
+  }
+`;
+
+const HelloQuery = `
+  query hello($name: String){
+    hello(name: $name)
+  }
+`;
 
 export function App() {
+  const [name, setName] = useState('');
+
+  const [meResult] = useQuery({
+    query: MeQuery,
+  });
+
+  const [helloResult] = useQuery({
+    query: HelloQuery,
+    variables: {
+      name,
+    },
+  });
+
   return (
     <Layout>
       <Header>
         <Title>Coin brew</Title>
       </Header>
-      <Container>
-        <List
-          grid={{
-            gutter: 16,
-          }}
-          dataSource={data}
-          renderItem={(item) => (
-            <List.Item>
-              <Card title={item.title}>???</Card>
-            </List.Item>
-          )}
-        />
-      </Container>
+      {meResult.error && <span>{meResult.error?.message}</span>}
+
+      <input value={name} onChange={(e) => setName(e.target.value)} />
+
+      <p>Welcome: {helloResult.data?.hello}</p>
+
+      {/* <Loading /> */}
     </Layout>
   );
 }
