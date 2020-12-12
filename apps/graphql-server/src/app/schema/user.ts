@@ -9,7 +9,7 @@ export const User = objectType({
     t.string('name');
     t.string('email');
     t.string('lastLoginTry', {
-      resolve: (root) => root.updatedAt.toISOString(),
+      resolve: (root) => root.updatedAt?.toISOString() ?? null,
     });
   },
 });

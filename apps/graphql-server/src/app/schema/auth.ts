@@ -62,7 +62,7 @@ export const authQuery = mutationType({
         }
 
         try {
-          const nameFromEmail = String(emailToName.process(args.email));
+          const nameFromEmail = emailToName.process(args.email);
 
           const user = new ctx.db.user({
             email: args.email,

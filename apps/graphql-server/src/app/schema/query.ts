@@ -8,6 +8,11 @@ export const Query = queryType({
     t.field('me', {
       type: nonNull(User),
       resolve: async (_root, _args, ctx) => {
+        if (!ctx.userId) {
+          logger.error(`Not authorized - ${ctx.userId}`);
+          throw new Error('Not authorized!');
+        }
+
         const user = await ctx.db.user.findOne(Types.ObjectId(ctx.userId));
 
         if (!user) {

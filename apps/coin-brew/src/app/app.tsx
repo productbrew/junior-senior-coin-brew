@@ -2,51 +2,22 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { Layout, Modal, Button } from 'antd';
 import Loading from './loading';
-import { useQuery } from 'urql';
+import { useMeQuery } from './graphql/client';
+
 const { Header, Content } = Layout;
 
-const MeQuery = `
-  query me{
-    me {
-      id
-      name
-      email
-    }
-  }
-`;
-
-const HelloQuery = `
-  query hello($name: String){
-    hello(name: $name)
-  }
-`;
-
 export function App() {
-  const [name, setName] = useState('');
-
-  const [meResult] = useQuery({
-    query: MeQuery,
-  });
-
-  const [helloResult] = useQuery({
-    query: HelloQuery,
-    variables: {
-      name,
-    },
-  });
+  const [result] = useMeQuery();
 
   return (
     <Layout>
+      {result.fetching && <Loading fullPage />}
+
       <Header>
         <Title>Coin brew</Title>
       </Header>
-      {meResult.error && <span>{meResult.error?.message}</span>}
-
-      <input value={name} onChange={(e) => setName(e.target.value)} />
-
-      <p>Welcome: {helloResult.data?.hello}</p>
-
-      {/* <Loading /> */}
+      {<span>{result.error?.message}</span>}
+      {<span>{result.data?.me.name}</span>}
     </Layout>
   );
 }

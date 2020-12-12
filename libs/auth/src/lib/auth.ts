@@ -1,6 +1,7 @@
 import niceware from 'niceware';
 import jwt from 'jsonwebtoken';
 import { logger } from '@junior-senior-coin-brew/logger';
+
 /**
  * OTP link generator
  */

@@ -1,0 +1,20 @@
+overwrite: true
+schema: http://localhost:3000/graphql
+documents: apps/coin-brew/src/app/graphql/*.graphql
+
+generates:
+  apps/coin-brew/src/app/graphql/client.ts:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-urql
+
+    config:
+      nonOptionalTypename: true
+      avoidOptionals: true
+
+  apps/coin-brew/src/app/graphql/schema.json:
+    plugins:
+      - introspection
+    config:
+      minify: true

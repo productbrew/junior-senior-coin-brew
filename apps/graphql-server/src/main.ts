@@ -8,6 +8,15 @@ import { schema } from './app/schema/schema';
 import { environment } from './environments/environment';
 import { createContext } from './app/context';
 
+Object.entries(environment).map(([key, value]) => {
+  if (value === undefined) {
+    const message = `Missing '${key}' variable`;
+
+    logger.error(message);
+    process.exit(1);
+  }
+});
+
 const app = Fastify({
   logger: {
     prettyPrint: !environment.production,
