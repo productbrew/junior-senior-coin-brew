@@ -7,7 +7,7 @@ export const Query = queryType({
         name: stringArg(),
       },
       resolve: async (_parent, args) => {
-        return `Hello ${args.name || 'World'}!`;
+        return `Hello ${args.name || 'World'} !`;
       },
     });
   },

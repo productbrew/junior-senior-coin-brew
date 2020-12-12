@@ -1,4 +1,4 @@
-import { extendType, objectType, stringArg } from '@nexus/schema';
+import { extendType, objectType } from '@nexus/schema';
 import { getCurrenciesTickers } from '@junior-senior-coin-brew/nomics-client';
 
 export const Coin = objectType({
