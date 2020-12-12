@@ -28,6 +28,21 @@
     },
     "coin-brew": {
       "tags": []
+    },
+    "nomics-client": {
+      "tags": []
+    },
+    "database": {
+      "tags": []
+    },
+    "logger": {
+      "tags": []
+    },
+    "email": {
+      "tags": []
+    },
+    "auth": {
+      "tags": []
     }
   }
 }

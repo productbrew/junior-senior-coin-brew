@@ -26,7 +26,23 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  AuthPayload: { // root type
+    accessToken: string; // String!
+    user: NexusGenRootTypes['User']; // User!
+  }
+  Coin: { // root type
+    currency?: string | null; // String
+    id?: string | null; // ID
+    logo_url?: string | null; // String
+    price?: string | null; // String
+  }
+  Mutation: {};
   Query: {};
+  User: { // root type
+    email?: string | null; // String
+    id?: string | null; // ID
+    name?: string | null; // String
+  }
 }
 
 export interface NexusGenInterfaces {
@@ -40,18 +56,66 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
+  AuthPayload: { // field return type
+    accessToken: string; // String!
+    user: NexusGenRootTypes['User']; // User!
+  }
+  Coin: { // field return type
+    currency: string | null; // String
+    id: string | null; // ID
+    logo_url: string | null; // String
+    price: string | null; // String
+  }
+  Mutation: { // field return type
+    login: boolean; // Boolean!
+    verifyOtp: NexusGenRootTypes['AuthPayload']; // AuthPayload!
+  }
   Query: { // field return type
+    coins: Array<NexusGenRootTypes['Coin'] | null> | null; // [Coin]
     hello: string | null; // String
+  }
+  User: { // field return type
+    email: string | null; // String
+    id: string | null; // ID
+    name: string | null; // String
   }
 }
 
 export interface NexusGenFieldTypeNames {
+  AuthPayload: { // field return type name
+    accessToken: 'String'
+    user: 'User'
+  }
+  Coin: { // field return type name
+    currency: 'String'
+    id: 'ID'
+    logo_url: 'String'
+    price: 'String'
+  }
+  Mutation: { // field return type name
+    login: 'Boolean'
+    verifyOtp: 'AuthPayload'
+  }
   Query: { // field return type name
+    coins: 'Coin'
     hello: 'String'
+  }
+  User: { // field return type name
+    email: 'String'
+    id: 'ID'
+    name: 'String'
   }
 }
 
 export interface NexusGenArgTypes {
+  Mutation: {
+    login: { // args
+      email: string; // String!
+    }
+    verifyOtp: { // args
+      token: string; // String!
+    }
+  }
   Query: {
     hello: { // args
       name?: string | null; // String

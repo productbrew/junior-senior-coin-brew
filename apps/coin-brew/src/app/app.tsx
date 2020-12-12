@@ -1,49 +1,63 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { Route, Link } from 'react-router-dom';
+import { List, Card, Layout } from 'antd';
+import Jelly from './jelly';
+const { Header, Content } = Layout;
 
-const StyledApp = styled.div`
-  background-color: green;
+const Title = styled.h1`
+  color: green;
 `;
 
-export function App() {
-  return (
-    <StyledApp>
-      <header className="flex">
-        <h1>Welcome to coin-brew!</h1>
-      </header>
-      <div role="navigation">
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/page-2">Page 2</Link>
-          </li>
-        </ul>
-      </div>
+const Container = styled(Content)`
+  display: flex;
+  justify-content: center;
+  margin: 16px;
+`;
 
-      <Route
-        path="/"
-        exact
-        render={() => (
-          <div>
-            This is the generated root route.{' '}
-            <Link to="/page-2">Click here for page 2.</Link>
-          </div>
-        )}
-      />
-      <Route
-        path="/page-2"
-        exact
-        render={() => (
-          <div>
-            <Link to="/">Click here to go back to root page.</Link>
-          </div>
-        )}
-      />
-    </StyledApp>
-  );
+const data = [
+  {
+    title: 'Bitcoin',
+  },
+  {
+    title: 'Title 2',
+  },
+  {
+    title: 'Title 3',
+  },
+  {
+    title: 'Title 4',
+  },
+  {
+    title: 'Title 5',
+  },
+  {
+    title: 'Title 6',
+  },
+];
+
+export function App() {
+  return <Jelly />;
+
+  // return (
+  //   <Layout>
+  //     <Header>
+  //       <Title>Coin brew</Title>
+  //     </Header>
+  //     <Container>
+  //       <List
+  //         grid={{
+  //           gutter: 16,
+  //         }}
+  //         dataSource={data}
+  //         renderItem={(item) => (
+  //           <List.Item>
+  //             <Card title={item.title}>Card content</Card>
+  //           </List.Item>
+  //         )}
+  //       />
+  //     </Container>
+  //   </Layout>
+  // );
 }
 
 export default App;

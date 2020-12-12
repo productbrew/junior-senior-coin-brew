@@ -1,1 +1,1 @@
-# Junior Sentior GraphqlS erver
+# Junior Senior GraphQL server
