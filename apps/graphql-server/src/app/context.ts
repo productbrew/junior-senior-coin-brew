@@ -4,7 +4,7 @@ import { validateAccessToken } from '@junior-senior-coin-brew/auth';
 import { environment } from '../environments/environment';
 
 export type Context = {
-  userId?: string;
+  userId: string | undefined;
   db: {
     user: typeof UserModel;
   };

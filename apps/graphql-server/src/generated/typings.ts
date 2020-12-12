@@ -69,6 +69,8 @@ export interface NexusGenFieldTypes {
   }
   Query: { // field return type
     coins: Array<NexusGenRootTypes['Coin'] | null> | null; // [Coin]
+    hello: string | null; // String
+    me: NexusGenRootTypes['User']; // User!
   }
   User: { // field return type
     email: string | null; // String
@@ -95,6 +97,8 @@ export interface NexusGenFieldTypeNames {
   }
   Query: { // field return type name
     coins: 'Coin'
+    hello: 'String'
+    me: 'User'
   }
   User: { // field return type name
     email: 'String'
@@ -111,6 +115,11 @@ export interface NexusGenArgTypes {
     }
     verifyOtp: { // args
       token: string; // String!
+    }
+  }
+  Query: {
+    hello: { // args
+      name?: string | null; // String
     }
   }
 }

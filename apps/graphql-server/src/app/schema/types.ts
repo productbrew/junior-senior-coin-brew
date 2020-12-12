@@ -4,7 +4,7 @@ import * as Auth from './auth';
 import * as User from './user';
 
 export const types = {
-  ...Query,
+  Query,
   ...Coin,
   ...Auth,
   ...User,

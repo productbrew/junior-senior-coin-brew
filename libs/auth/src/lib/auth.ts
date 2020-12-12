@@ -39,7 +39,7 @@ export function validateAccessToken(
 
     return decodedToken.userId;
   } catch (error) {
-    logger.error(error);
+    logger.error(error.message);
     return null;
   }
 }

@@ -2,11 +2,11 @@ import emailToName from 'email-to-name';
 import { mutationType, stringArg, nonNull } from '@nexus/schema';
 import { logger } from '@junior-senior-coin-brew/logger';
 import { sendOTPEmail } from '@junior-senior-coin-brew/email';
-import { environment } from '../../environments/environment';
 import {
   generateAccessToken,
   generateOTP,
 } from '@junior-senior-coin-brew/auth';
+import { environment } from '../../environments/environment';
 import { AuthPayload } from './user';
 
 export const authQuery = mutationType({
@@ -56,7 +56,7 @@ export const authQuery = mutationType({
 
             return true;
           } catch (error) {
-            logger.error(error);
+            logger.error(error.message);
             return false;
           }
         }
@@ -76,7 +76,7 @@ export const authQuery = mutationType({
 
           return true;
         } catch (error) {
-          logger.error(error);
+          logger.error(error.message);
           return false;
         }
       },

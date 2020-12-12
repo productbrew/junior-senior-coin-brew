@@ -1,5 +1,6 @@
-import { nonNull, queryType, stringArg } from '@nexus/schema';
 import { Types } from 'mongoose';
+import { nonNull, queryType, stringArg } from '@nexus/schema';
+import { logger } from '@junior-senior-coin-brew/logger';
 import { User } from './user';
 
 export const Query = queryType({
@@ -10,6 +11,7 @@ export const Query = queryType({
         const user = await ctx.db.user.findOne(Types.ObjectId(ctx.userId));
 
         if (!user) {
+          logger.error(`Not authorized - ${ctx.userId}`);
           throw new Error('Not authorized!');
         }
 

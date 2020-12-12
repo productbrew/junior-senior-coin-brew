@@ -16,8 +16,8 @@ export async function connectToDataBase(
     });
 
     logger.info('Connected to database established!');
-  } catch (e) {
-    logger.error(e);
+  } catch (error) {
+    logger.error(error.message);
     process.exit(1);
   }
 }

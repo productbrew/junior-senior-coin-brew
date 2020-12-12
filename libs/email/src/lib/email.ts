@@ -17,6 +17,6 @@ export async function sendOTPEmail(emailTo: string, token: string) {
       },
     });
   } catch (error) {
-    logger.error(error);
+    logger.error(error.message);
   }
 }
