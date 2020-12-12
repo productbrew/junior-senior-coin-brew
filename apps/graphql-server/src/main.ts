@@ -3,6 +3,7 @@ import mercurius from 'mercurius';
 import sgEmail from '@sendgrid/mail';
 import { connectToDataBase } from '@junior-senior-coin-brew/database';
 import { logger } from '@junior-senior-coin-brew/logger';
+import cors from 'fastify-cors';
 import { schema } from './app/schema/schema';
 import { environment } from './environments/environment';
 import { createContext } from './app/context';
@@ -12,6 +13,8 @@ const app = Fastify({
     prettyPrint: !environment.production,
   },
 });
+
+app.register(cors);
 
 app.register(mercurius, {
   schema,

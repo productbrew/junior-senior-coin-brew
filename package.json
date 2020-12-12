@@ -37,6 +37,7 @@
     "email-to-name": "^1.0.0",
     "express": "4.17.1",
     "fastify": "^3.9.1",
+    "fastify-cors": "^5.1.0",
     "graphql": "^15.4.0",
     "jsonwebtoken": "^8.5.1",
     "mercurius": "^6.5.0",
