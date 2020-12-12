@@ -1,13 +1,11 @@
 import { makeSchema } from '@nexus/schema';
 import { join } from 'path';
-import { Query } from './query';
-import * as Coin from './coin';
-import * as Auth from './auth';
+import * as types from './types';
 
 const defaultSrcPath = [process.cwd(), 'apps', 'graphql-server', 'src'];
 
 export const schema = makeSchema({
-  types: [Query, Coin, Auth],
+  types,
   outputs: {
     schema: join(...defaultSrcPath, 'generated', 'schema.graphql'),
     typegen: join(...defaultSrcPath, 'generated', 'typings.ts'),
@@ -23,6 +21,10 @@ export const schema = makeSchema({
       {
         alias: 'ctx',
         source: join(...defaultSrcPath, 'app', 'context.ts'),
+      },
+      {
+        alias: 'RootTypes',
+        source: join(...defaultSrcPath, 'app', 'schema', 'rootTypes.ts'),
       },
     ],
   },

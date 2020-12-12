@@ -1,33 +1,13 @@
 import emailToName from 'email-to-name';
-import { mutationType, objectType, stringArg, nonNull } from '@nexus/schema';
+import { mutationType, stringArg, nonNull } from '@nexus/schema';
 import { logger } from '@junior-senior-coin-brew/logger';
 import { sendOTPEmail } from '@junior-senior-coin-brew/email';
+import { environment } from '../../environments/environment';
 import {
   generateAccessToken,
   generateOTP,
 } from '@junior-senior-coin-brew/auth';
-import { environment } from '../environments/environment';
-
-export const User = objectType({
-  name: 'User',
-  definition(t) {
-    t.id('id');
-    t.string('name');
-    t.string('email');
-  },
-});
-
-export const AuthPayload = objectType({
-  name: 'AuthPayload',
-  definition(t) {
-    t.field('accessToken', {
-      type: nonNull('String'),
-    });
-    t.field('user', {
-      type: nonNull(User),
-    });
-  },
-});
+import { AuthPayload } from './user';
 
 export const authQuery = mutationType({
   definition(t) {
@@ -41,10 +21,10 @@ export const authQuery = mutationType({
 
         if (user) {
           user.token = null;
-          user.save();
+          await user.save();
 
           const accessToken = generateAccessToken(
-            user._id,
+            user._id.toHexString(),
             environment.JWT_SECRET
           );
 
@@ -82,13 +62,15 @@ export const authQuery = mutationType({
         }
 
         try {
-          const nameFromEmail = emailToName.process(args.email);
+          const nameFromEmail = String(emailToName.process(args.email));
 
-          await ctx.db.user.create({
+          const user = new ctx.db.user({
             email: args.email,
             token: token,
             name: nameFromEmail,
           });
+
+          await user.save();
 
           sendOTPEmail(args.email, token);
 

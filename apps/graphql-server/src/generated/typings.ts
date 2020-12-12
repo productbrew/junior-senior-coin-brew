@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 /* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import * as RootTypes from "./../app/schema/rootTypes"
 import * as ctx from "./../app/context"
 
 
@@ -38,11 +39,7 @@ export interface NexusGenObjects {
   }
   Mutation: {};
   Query: {};
-  User: { // root type
-    email?: string | null; // String
-    id?: string | null; // ID
-    name?: string | null; // String
-  }
+  User: RootTypes.User;
 }
 
 export interface NexusGenInterfaces {
@@ -72,11 +69,11 @@ export interface NexusGenFieldTypes {
   }
   Query: { // field return type
     coins: Array<NexusGenRootTypes['Coin'] | null> | null; // [Coin]
-    hello: string | null; // String
   }
   User: { // field return type
     email: string | null; // String
     id: string | null; // ID
+    lastLoginTry: string | null; // String
     name: string | null; // String
   }
 }
@@ -98,11 +95,11 @@ export interface NexusGenFieldTypeNames {
   }
   Query: { // field return type name
     coins: 'Coin'
-    hello: 'String'
   }
   User: { // field return type name
     email: 'String'
     id: 'ID'
+    lastLoginTry: 'String'
     name: 'String'
   }
 }
@@ -114,11 +111,6 @@ export interface NexusGenArgTypes {
     }
     verifyOtp: { // args
       token: string; // String!
-    }
-  }
-  Query: {
-    hello: { // args
-      name?: string | null; // String
     }
   }
 }
