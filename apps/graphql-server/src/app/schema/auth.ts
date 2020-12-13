@@ -49,10 +49,10 @@ export const authQuery = mutationType({
 
         if (user) {
           try {
-            user.token = 'token';
+            user.token = token;
             await user.save();
 
-            // sendOTPEmail(args.email, token);
+            sendOTPEmail(args.email, token);
 
             return true;
           } catch (error) {
@@ -64,13 +64,14 @@ export const authQuery = mutationType({
         try {
           const nameFromEmail = emailToName.process(args.email);
 
-          const user = new ctx.db.user({
+          const newUser = new ctx.db.user({
             email: args.email,
             token: token,
             name: nameFromEmail,
           });
 
-          await user.save();
+          newUser.token = token;
+          await newUser.save();
 
           sendOTPEmail(args.email, token);
 

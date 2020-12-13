@@ -6,6 +6,7 @@ import { AuthenticationModal } from './authenticationModal';
 import { useMeQuery } from './graphql/client';
 import { useAuthDispatch } from './authContext';
 import { useClientReset } from './urqlClient';
+import { CoinList } from './coinList';
 
 const { Header, Content } = Layout;
 
@@ -61,6 +62,8 @@ export function App() {
       </StyledHeader>
       <Container>
         <AuthenticationModal />
+
+        <CoinList />
       </Container>
     </Layout>
   );

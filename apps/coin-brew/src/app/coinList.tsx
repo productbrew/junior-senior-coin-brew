@@ -1,61 +1,46 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { List, Card, Layout } from 'antd';
+import { List, Card, Image } from 'antd';
+import { useCoinsQuery } from './graphql/client';
 
-const { Header, Content } = Layout;
+export function CoinList() {
+  const [coinsResult] = useCoinsQuery();
 
-const data = [
-  {
-    title: 'BTC',
-  },
-  {
-    title: 'ETH',
-  },
-  {
-    title: 'XRP',
-  },
-  {
-    title: 'HOLLY',
-  },
-  {
-    title: 'USDT',
-  },
-  {
-    title: 'XDAI',
-  },
-];
-
-export function App() {
   return (
-    <Layout>
-      <Header>
-        <Title>Coin brew</Title>
-      </Header>
-      <Container>
-        <List
-          grid={{
-            gutter: 16,
-          }}
-          dataSource={data}
-          renderItem={(item) => (
-            <List.Item>
-              <Card title={item.title}>???</Card>
-            </List.Item>
-          )}
-        />
-      </Container>
-    </Layout>
+    <Container>
+      <List
+        loading={coinsResult.fetching}
+        dataSource={coinsResult.data?.coins ?? []}
+        grid={{
+          gutter: 16,
+        }}
+        renderItem={(item) => (
+          <List.Item>
+            <Card
+              hoverable
+              cover={
+                <StyledCover>
+                  <Image alt="example" src={item.logoUrl} width="150px" />
+                </StyledCover>
+              }
+            >
+              <Card.Meta title={`${item.name} (${item.currency})`}></Card.Meta>
+            </Card>
+          </List.Item>
+        )}
+      />
+    </Container>
   );
 }
 
-const Title = styled.h1`
-  color: green;
-`;
-
-const Container = styled(Content)`
+const StyledCover = styled.div`
+  max-width: 200px;
+  max-height: 200px;
   display: flex;
   justify-content: center;
-  margin: 16px;
+  padding: 16px;
 `;
 
-export default App;
+const Container = styled.div`
+  width: 80%;
+`;

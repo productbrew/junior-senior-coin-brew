@@ -8,10 +8,11 @@ type AuthPayload {
 }
 
 type Coin {
-  currency: String
-  id: ID
-  logo_url: String
-  price: String
+  currency: String!
+  id: ID!
+  logoUrl: String!
+  name: String!
+  price: String!
 }
 
 type Mutation {
@@ -20,7 +21,7 @@ type Mutation {
 }
 
 type Query {
-  coins: [Coin]
+  coins: [Coin!]
   hello(name: String): String
   me: User!
 }

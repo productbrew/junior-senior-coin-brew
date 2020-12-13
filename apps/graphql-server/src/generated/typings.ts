@@ -31,12 +31,7 @@ export interface NexusGenObjects {
     accessToken: string; // String!
     user: NexusGenRootTypes['User']; // User!
   }
-  Coin: { // root type
-    currency?: string | null; // String
-    id?: string | null; // ID
-    logo_url?: string | null; // String
-    price?: string | null; // String
-  }
+  Coin: RootTypes.Coin;
   Mutation: {};
   Query: {};
   User: RootTypes.User;
@@ -58,17 +53,18 @@ export interface NexusGenFieldTypes {
     user: NexusGenRootTypes['User']; // User!
   }
   Coin: { // field return type
-    currency: string | null; // String
-    id: string | null; // ID
-    logo_url: string | null; // String
-    price: string | null; // String
+    currency: string; // String!
+    id: string; // ID!
+    logoUrl: string; // String!
+    name: string; // String!
+    price: string; // String!
   }
   Mutation: { // field return type
     login: boolean; // Boolean!
     verifyOtp: NexusGenRootTypes['AuthPayload']; // AuthPayload!
   }
   Query: { // field return type
-    coins: Array<NexusGenRootTypes['Coin'] | null> | null; // [Coin]
+    coins: NexusGenRootTypes['Coin'][] | null; // [Coin!]
     hello: string | null; // String
     me: NexusGenRootTypes['User']; // User!
   }
@@ -88,7 +84,8 @@ export interface NexusGenFieldTypeNames {
   Coin: { // field return type name
     currency: 'String'
     id: 'ID'
-    logo_url: 'String'
+    logoUrl: 'String'
+    name: 'String'
     price: 'String'
   }
   Mutation: { // field return type name

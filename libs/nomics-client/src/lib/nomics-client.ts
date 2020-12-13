@@ -19,7 +19,7 @@ type CoinChange = {
   market_cap_change_pct: string;
 };
 
-type Coin = {
+export type Coin = {
   id: string;
   currency: string;
   symbol: string;

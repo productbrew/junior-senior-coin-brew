@@ -22,7 +22,7 @@ export type Query = {
   __typename: 'Query';
   me: User;
   hello: Maybe<Scalars['String']>;
-  coins: Maybe<Array<Maybe<Coin>>>;
+  coins: Maybe<Array<Coin>>;
 };
 
 export type QueryHelloArgs = {
@@ -31,10 +31,11 @@ export type QueryHelloArgs = {
 
 export type Coin = {
   __typename: 'Coin';
-  id: Maybe<Scalars['ID']>;
-  currency: Maybe<Scalars['String']>;
-  logo_url: Maybe<Scalars['String']>;
-  price: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  currency: Scalars['String'];
+  name: Scalars['String'];
+  logoUrl: Scalars['String'];
+  price: Scalars['String'];
 };
 
 export type Mutation = {
@@ -63,6 +64,19 @@ export type AuthPayload = {
   __typename: 'AuthPayload';
   accessToken: Scalars['String'];
   user: User;
+};
+
+export type CoinsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type CoinsQuery = { __typename: 'Query' } & {
+  coins: Maybe<
+    Array<
+      { __typename: 'Coin' } & Pick<
+        Coin,
+        'id' | 'name' | 'price' | 'currency' | 'logoUrl'
+      >
+    >
+  >;
 };
 
 export type LoginMutationVariables = Exact<{
@@ -103,6 +117,23 @@ export const UserFragmentDoc = gql`
     email
   }
 `;
+export const CoinsDocument = gql`
+  query coins {
+    coins {
+      id
+      name
+      price
+      currency
+      logoUrl
+    }
+  }
+`;
+
+export function useCoinsQuery(
+  options: Omit<Urql.UseQueryArgs<CoinsQueryVariables>, 'query'> = {}
+) {
+  return Urql.useQuery<CoinsQuery>({ query: CoinsDocument, ...options });
+}
 export const LoginDocument = gql`
   mutation login($email: String!) {
     login(email: $email)

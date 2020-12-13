@@ -62,6 +62,7 @@ export function AuthenticationModal() {
       visible={authState === 'UNAUTHENTICATED'}
       footer={null}
       closable={false}
+      forceRender
     >
       <Form form={form} name="authentication" onFinish={onFinish}>
         <Form.Item

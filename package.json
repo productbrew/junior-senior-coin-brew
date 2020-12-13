@@ -33,7 +33,6 @@
     "@nexus/schema": "^0.19.2",
     "@sendgrid/mail": "^7.4.0",
     "@urql/devtools": "^2.0.2",
-    "@urql/exchange-auth": "^0.1.2",
     "@urql/exchange-graphcache": "^3.3.3",
     "antd": "^4.9.2",
     "axios": "^0.21.0",
