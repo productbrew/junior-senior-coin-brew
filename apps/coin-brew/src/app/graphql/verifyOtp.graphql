@@ -1,0 +1,8 @@
+mutation verifyOtp($token: String!) {
+  verifyOtp(token: $token) {
+    accessToken
+    user {
+      ...User
+    }
+  }
+}

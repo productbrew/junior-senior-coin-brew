@@ -49,10 +49,10 @@ export const authQuery = mutationType({
 
         if (user) {
           try {
-            user.token = token;
+            user.token = 'token';
             await user.save();
 
-            sendOTPEmail(args.email, token);
+            // sendOTPEmail(args.email, token);
 
             return true;
           } catch (error) {

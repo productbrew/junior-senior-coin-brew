@@ -1,9 +1,13 @@
 import gql from 'graphql-tag';
 import * as Urql from 'urql';
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
+  { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
+  { [SubKey in K]: Maybe<T[SubKey]> };
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -20,7 +24,6 @@ export type Query = {
   hello: Maybe<Scalars['String']>;
   coins: Maybe<Array<Maybe<Coin>>>;
 };
-
 
 export type QueryHelloArgs = {
   name: Maybe<Scalars['String']>;
@@ -40,11 +43,9 @@ export type Mutation = {
   login: Scalars['Boolean'];
 };
 
-
 export type MutationVerifyOtpArgs = {
   token: Scalars['String'];
 };
-
 
 export type MutationLoginArgs = {
   email: Scalars['String'];
@@ -52,9 +53,9 @@ export type MutationLoginArgs = {
 
 export type User = {
   __typename: 'User';
-  id: Maybe<Scalars['ID']>;
-  name: Maybe<Scalars['String']>;
-  email: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  email: Scalars['String'];
   lastLoginTry: Maybe<Scalars['String']>;
 };
 
@@ -64,28 +65,82 @@ export type AuthPayload = {
   user: User;
 };
 
-export type MeQueryVariables = Exact<{ [key: string]: never; }>;
+export type LoginMutationVariables = Exact<{
+  email: Scalars['String'];
+}>;
 
+export type LoginMutation = { __typename: 'Mutation' } & Pick<
+  Mutation,
+  'login'
+>;
 
-export type MeQuery = (
-  { __typename: 'Query' }
-  & { me: (
-    { __typename: 'User' }
-    & Pick<User, 'id' | 'name' | 'email'>
-  ) }
-);
+export type MeQueryVariables = Exact<{ [key: string]: never }>;
 
+export type MeQuery = { __typename: 'Query' } & {
+  me: { __typename: 'User' } & Pick<User, 'id' | 'name' | 'email'>;
+};
 
-export const MeDocument = gql`
-    query me {
-  me {
+export type UserFragment = { __typename: 'User' } & Pick<
+  User,
+  'id' | 'name' | 'email'
+>;
+
+export type VerifyOtpMutationVariables = Exact<{
+  token: Scalars['String'];
+}>;
+
+export type VerifyOtpMutation = { __typename: 'Mutation' } & {
+  verifyOtp: { __typename: 'AuthPayload' } & Pick<
+    AuthPayload,
+    'accessToken'
+  > & { user: { __typename: 'User' } & UserFragment };
+};
+
+export const UserFragmentDoc = gql`
+  fragment User on User {
     id
     name
     email
   }
-}
-    `;
+`;
+export const LoginDocument = gql`
+  mutation login($email: String!) {
+    login(email: $email)
+  }
+`;
 
-export function useMeQuery(options: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'query'> = {}) {
+export function useLoginMutation() {
+  return Urql.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument);
+}
+export const MeDocument = gql`
+  query me {
+    me {
+      id
+      name
+      email
+    }
+  }
+`;
+
+export function useMeQuery(
+  options: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'query'> = {}
+) {
   return Urql.useQuery<MeQuery>({ query: MeDocument, ...options });
-};
+}
+export const VerifyOtpDocument = gql`
+  mutation verifyOtp($token: String!) {
+    verifyOtp(token: $token) {
+      accessToken
+      user {
+        ...User
+      }
+    }
+  }
+  ${UserFragmentDoc}
+`;
+
+export function useVerifyOtpMutation() {
+  return Urql.useMutation<VerifyOtpMutation, VerifyOtpMutationVariables>(
+    VerifyOtpDocument
+  );
+}

@@ -14,7 +14,7 @@ export function generateOTP(): string {
  */
 export function generateAccessToken(userId: string, secret: string): string {
   const options = {
-    expiresIn: '5m',
+    expiresIn: '1d',
   };
 
   const tokenData = {

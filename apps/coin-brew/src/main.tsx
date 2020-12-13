@@ -2,23 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import App from './app/app';
-import { createClient, dedupExchange, fetchExchange, Provider } from 'urql';
-import { cacheExchange } from '@urql/exchange-graphcache';
+import { AuthProvider } from './app/authContext';
 
 import 'antd/dist/antd.css';
-
-const client = createClient({
-  url: 'http://localhost:3000/graphql',
-  exchanges: [dedupExchange, cacheExchange(), fetchExchange],
-});
+import { UrqlProvider } from './app/urqlClient';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <Provider value={client}>
+  <BrowserRouter>
+    <UrqlProvider>
+      <AuthProvider>
         <App />
-      </Provider>
-    </BrowserRouter>
-  </React.StrictMode>,
+      </AuthProvider>
+    </UrqlProvider>
+  </BrowserRouter>,
   document.getElementById('root')
 );

@@ -73,10 +73,10 @@ export interface NexusGenFieldTypes {
     me: NexusGenRootTypes['User']; // User!
   }
   User: { // field return type
-    email: string | null; // String
-    id: string | null; // ID
+    email: string; // String!
+    id: string; // ID!
     lastLoginTry: string | null; // String
-    name: string | null; // String
+    name: string; // String!
   }
 }
 

@@ -8,7 +8,10 @@ generates:
       - typescript
       - typescript-operations
       - typescript-urql
-
+    hooks:
+      afterOneFileWrite:
+        - prettier apps/coin-brew/src/app/graphql/client.ts --write
+        - eslint apps/coin-brew/src/app/graphql/client.ts --fix
     config:
       nonOptionalTypename: true
       avoidOptionals: true

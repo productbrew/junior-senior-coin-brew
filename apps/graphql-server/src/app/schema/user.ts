@@ -3,11 +3,16 @@ import { objectType, nonNull } from '@nexus/schema';
 export const User = objectType({
   name: 'User',
   definition(t) {
-    t.id('id', {
+    t.field('id', {
+      type: nonNull('ID'),
       resolve: (root) => root._id.toHexString(),
     });
-    t.string('name');
-    t.string('email');
+    t.field('name', {
+      type: nonNull('String'),
+    });
+    t.field('email', {
+      type: nonNull('String'),
+    });
     t.string('lastLoginTry', {
       resolve: (root) => root.updatedAt?.toISOString() ?? null,
     });
