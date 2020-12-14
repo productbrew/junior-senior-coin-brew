@@ -49,7 +49,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       return;
     }
 
-    if (meResult.error?.message.includes('Not authorized!')) {
+    if (meResult.error) {
       return dispatch({
         type: 'AUTH_STATE_CHANGED',
         payload: 'UNAUTHENTICATED',

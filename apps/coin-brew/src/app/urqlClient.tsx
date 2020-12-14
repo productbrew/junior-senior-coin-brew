@@ -50,6 +50,9 @@ const UrqlClientContext = React.createContext<
   { resetClient: () => void } | undefined
 >(undefined);
 
+/**
+ * Reset cache hook
+ */
 export function useClientReset() {
   const resetClientState = useContext(UrqlClientContext);
 

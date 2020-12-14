@@ -13,19 +13,33 @@ export function CoinList() {
         dataSource={coinsResult.data?.coins ?? []}
         grid={{
           gutter: 16,
+          column: 6,
+          xs: 1,
+          md: 3,
+          sm: 2,
+          lg: 4,
+          xl: 5,
         }}
         renderItem={(item) => (
           <List.Item>
-            <Card
+            <StyledCard
               hoverable
               cover={
                 <StyledCover>
-                  <Image alt="example" src={item.logoUrl} width="150px" />
+                  <Image
+                    preview={false}
+                    alt="example"
+                    src={item.logoUrl}
+                    width="80px"
+                  />
                 </StyledCover>
               }
             >
-              <Card.Meta title={`${item.name} (${item.currency})`}></Card.Meta>
-            </Card>
+              <Card.Meta
+                title={`${item.name} (${item.currency})`}
+                description={`Price: $${Number(item.price).toFixed(2)}`}
+              />
+            </StyledCard>
           </List.Item>
         )}
       />
@@ -34,11 +48,15 @@ export function CoinList() {
 }
 
 const StyledCover = styled.div`
-  max-width: 200px;
-  max-height: 200px;
   display: flex;
+  height: 180px;
   justify-content: center;
+  align-items: center;
   padding: 16px;
+`;
+
+const StyledCard = styled(Card)`
+  height: 270px;
 `;
 
 const Container = styled.div`
