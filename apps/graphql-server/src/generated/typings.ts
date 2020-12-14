@@ -32,6 +32,8 @@ export interface NexusGenObjects {
     user: NexusGenRootTypes['User']; // User!
   }
   Coin: RootTypes.Coin;
+  Market: RootTypes.Market;
+  MarketCupHistory: RootTypes.MarketCupHistory;
   Mutation: {};
   Query: {};
   User: RootTypes.User;
@@ -56,8 +58,18 @@ export interface NexusGenFieldTypes {
     currency: string; // String!
     id: string; // ID!
     logoUrl: string; // String!
+    market: NexusGenRootTypes['Market'][]; // [Market!]!
     name: string; // String!
     price: string; // String!
+  }
+  Market: { // field return type
+    base: string; // String!
+    exchange: string; // String!
+    quote: string; // String!
+  }
+  MarketCupHistory: { // field return type
+    timestamp: string; // String!
+    value: string; // String!
   }
   Mutation: { // field return type
     login: boolean; // Boolean!
@@ -66,6 +78,7 @@ export interface NexusGenFieldTypes {
   Query: { // field return type
     coins: NexusGenRootTypes['Coin'][] | null; // [Coin!]
     hello: string | null; // String
+    marketCupHistory: NexusGenRootTypes['MarketCupHistory'][] | null; // [MarketCupHistory!]
     me: NexusGenRootTypes['User']; // User!
   }
   User: { // field return type
@@ -85,8 +98,18 @@ export interface NexusGenFieldTypeNames {
     currency: 'String'
     id: 'ID'
     logoUrl: 'String'
+    market: 'Market'
     name: 'String'
     price: 'String'
+  }
+  Market: { // field return type name
+    base: 'String'
+    exchange: 'String'
+    quote: 'String'
+  }
+  MarketCupHistory: { // field return type name
+    timestamp: 'String'
+    value: 'String'
   }
   Mutation: { // field return type name
     login: 'Boolean'
@@ -95,6 +118,7 @@ export interface NexusGenFieldTypeNames {
   Query: { // field return type name
     coins: 'Coin'
     hello: 'String'
+    marketCupHistory: 'MarketCupHistory'
     me: 'User'
   }
   User: { // field return type name

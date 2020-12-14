@@ -7,6 +7,7 @@ import { useMeQuery } from './graphql/client';
 import { useAuthDispatch } from './authContext';
 import { useClientReset } from './urqlClient';
 import { CoinList } from './coinList';
+import { MarketCupHistory } from './marketCupHistory';
 
 const { Header, Content } = Layout;
 
@@ -60,9 +61,9 @@ export function App() {
           </DropDownContainer>
         </Dropdown>
       </StyledHeader>
+      <AuthenticationModal />
       <Container>
-        <AuthenticationModal />
-
+        <MarketCupHistory />
         <CoinList />
       </Container>
     </Layout>
@@ -94,6 +95,7 @@ const StyledHeader = styled(Header)`
 const Container = styled(Content)`
   display: flex;
   justify-content: center;
+  flex-direction: column;
   margin: 16px;
 `;
 

@@ -11,8 +11,20 @@ type Coin {
   currency: String!
   id: ID!
   logoUrl: String!
+  market: [Market!]!
   name: String!
   price: String!
+}
+
+type Market {
+  base: String!
+  exchange: String!
+  quote: String!
+}
+
+type MarketCupHistory {
+  timestamp: String!
+  value: String!
 }
 
 type Mutation {
@@ -23,6 +35,7 @@ type Mutation {
 type Query {
   coins(limit: Int!, skip: Int!): [Coin!]
   hello(name: String): String
+  marketCupHistory: [MarketCupHistory!]
   me: User!
 }
 

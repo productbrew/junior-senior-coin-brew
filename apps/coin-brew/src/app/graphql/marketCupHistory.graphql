@@ -1,0 +1,6 @@
+query marketCupHistory {
+  marketCupHistory {
+    timestamp
+    value
+  }
+}

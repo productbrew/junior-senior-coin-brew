@@ -1,1 +1,3 @@
-export * from './lib/nomics-client';
+export * from './currencies';
+export * from './markets';
+export * from './marketCapHistory';

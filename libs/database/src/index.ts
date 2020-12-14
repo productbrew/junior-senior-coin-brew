@@ -1,2 +1,2 @@
-export * from './lib/database';
-export * from './lib/userModel';
+export * from './connectToDataBase';
+export * from './userModel';

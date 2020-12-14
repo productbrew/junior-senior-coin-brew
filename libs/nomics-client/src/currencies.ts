@@ -1,13 +1,10 @@
-import Axios from 'axios';
-const NOMICS_URL = 'https://api.nomics.com/v1';
-const NOMICS_KEY = 'a59ba9a2cab3c6235285bf694f9d5284';
+import { nomicsClient } from './client';
 
-const client = Axios.create({
-  baseURL: NOMICS_URL,
-  params: {
-    key: NOMICS_KEY,
-  },
-});
+export function getCurrenciesTickers(perPage = 10, page = 1) {
+  return nomicsClient.get<Coin[]>(
+    `/currencies/ticker?per-page=${perPage}&page=${page}`
+  );
+}
 
 type CoinChange = {
   volume: string;
@@ -48,9 +45,3 @@ export type Coin = {
   '365d': CoinChange;
   ytd: CoinChange;
 };
-
-export function getCurrenciesTickers(perPage = 10, page = 1) {
-  return client.get<Coin[]>(
-    `/currencies/ticker?per-page=${perPage}&page=${page}`
-  );
-}

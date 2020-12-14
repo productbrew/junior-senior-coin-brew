@@ -86,7 +86,9 @@ const StyledCard = styled(Card)`
 `;
 
 const Container = styled.div`
-  width: 80%;
+  padding: 0 10%;
+  display: flex;
+  justify-content: center;
 `;
 
 const LoadingContainer = styled.div`

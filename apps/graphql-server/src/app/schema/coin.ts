@@ -1,5 +1,5 @@
 import { extendType, objectType, nonNull } from '@nexus/schema';
-import { getCurrenciesTickers } from '@junior-senior-coin-brew/nomics-client';
+import { Market } from './market';
 
 export const Coin = objectType({
   name: 'Coin',
@@ -14,6 +14,14 @@ export const Coin = objectType({
       resolve: (root) => root.logo_url,
     });
     t.string('price');
+    t.list.field('market', {
+      type: Market,
+      resolve: async (root, arg, ctx) => {
+        const market = await ctx.nomics.getMarkets(root.currency);
+
+        return market.data;
+      },
+    });
   },
 });
 
@@ -26,8 +34,11 @@ export const CoinQuery = extendType({
         limit: nonNull('Int'),
         skip: nonNull('Int'),
       },
-      resolve: async (root, args) => {
-        const coins = await getCurrenciesTickers(args.limit, args.skip);
+      resolve: async (_root, args, ctx) => {
+        const coins = await ctx.nomics.getCurrenciesTickers(
+          args.limit,
+          args.skip
+        );
 
         return coins.data;
       },

@@ -23,6 +23,7 @@ export type Query = {
   me: User;
   hello: Maybe<Scalars['String']>;
   coins: Maybe<Array<Coin>>;
+  marketCupHistory: Maybe<Array<MarketCupHistory>>;
 };
 
 export type QueryHelloArgs = {
@@ -41,6 +42,7 @@ export type Coin = {
   name: Scalars['String'];
   logoUrl: Scalars['String'];
   price: Scalars['String'];
+  market: Array<Market>;
 };
 
 export type Mutation = {
@@ -71,6 +73,19 @@ export type AuthPayload = {
   user: User;
 };
 
+export type Market = {
+  __typename: 'Market';
+  base: Scalars['String'];
+  exchange: Scalars['String'];
+  quote: Scalars['String'];
+};
+
+export type MarketCupHistory = {
+  __typename: 'MarketCupHistory';
+  timestamp: Scalars['String'];
+  value: Scalars['String'];
+};
+
 export type CoinsQueryVariables = Exact<{
   limit: Scalars['Int'];
   skip: Scalars['Int'];
@@ -95,6 +110,19 @@ export type LoginMutation = { __typename: 'Mutation' } & Pick<
   Mutation,
   'login'
 >;
+
+export type MarketCupHistoryQueryVariables = Exact<{ [key: string]: never }>;
+
+export type MarketCupHistoryQuery = { __typename: 'Query' } & {
+  marketCupHistory: Maybe<
+    Array<
+      { __typename: 'MarketCupHistory' } & Pick<
+        MarketCupHistory,
+        'timestamp' | 'value'
+      >
+    >
+  >;
+};
 
 export type MeQueryVariables = Exact<{ [key: string]: never }>;
 
@@ -150,6 +178,23 @@ export const LoginDocument = gql`
 
 export function useLoginMutation() {
   return Urql.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument);
+}
+export const MarketCupHistoryDocument = gql`
+  query marketCupHistory {
+    marketCupHistory {
+      timestamp
+      value
+    }
+  }
+`;
+
+export function useMarketCupHistoryQuery(
+  options: Omit<Urql.UseQueryArgs<MarketCupHistoryQueryVariables>, 'query'> = {}
+) {
+  return Urql.useQuery<MarketCupHistoryQuery>({
+    query: MarketCupHistoryDocument,
+    ...options,
+  });
 }
 export const MeDocument = gql`
   query me {
