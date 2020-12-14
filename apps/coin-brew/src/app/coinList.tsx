@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { List, Card, Image } from 'antd';
+import { Modal, List, Card, Image } from 'antd';
 import InfiniteScroll from 'react-infinite-scroller';
 import { useCoinsQuery } from './graphql/client';
 import Error from './error';
@@ -8,6 +8,7 @@ import Loading from './loading';
 
 export function CoinList() {
   const [skip, setSkip] = useState(0);
+  const [selectedCurrency, setSelectedCurrency] = useState<string | null>(null);
 
   const [coinsResult] = useCoinsQuery({
     variables: {
@@ -16,12 +17,32 @@ export function CoinList() {
     },
   });
 
+  function hideModal() {
+    setSelectedCurrency(null);
+  }
+
+  function showModal(currency: string) {
+    setSelectedCurrency(currency);
+  }
+
+  function setNextDataPart(page: number) {
+    setSkip(page);
+  }
+
   if (coinsResult.error) {
     return <Error>{coinsResult.error.message}</Error>;
   }
 
   return (
     <Container>
+      <Modal
+        title={`${selectedCurrency} details`}
+        visible={selectedCurrency !== null}
+        onOk={hideModal}
+        onCancel={hideModal}
+      >
+        {selectedCurrency}
+      </Modal>
       <InfiniteScroll
         initialLoad={false}
         pageStart={0}
@@ -30,7 +51,7 @@ export function CoinList() {
             {skip > 0 && <Loading />}
           </LoadingContainer>
         }
-        loadMore={(page) => setSkip(page)}
+        loadMore={setNextDataPart}
         hasMore={true}
       >
         <List
@@ -48,6 +69,7 @@ export function CoinList() {
           renderItem={(item) => (
             <List.Item key={item.id}>
               <StyledCard
+                onClick={() => showModal(item.currency)}
                 hoverable
                 cover={
                   <StyledCover>
