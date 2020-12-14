@@ -22,8 +22,12 @@ export const CoinQuery = extendType({
   definition(t) {
     t.list.field('coins', {
       type: nonNull(Coin),
-      resolve: async () => {
-        const coins = await getCurrenciesTickers(50);
+      args: {
+        limit: nonNull('Int'),
+        skip: nonNull('Int'),
+      },
+      resolve: async (root, args) => {
+        const coins = await getCurrenciesTickers(args.limit, args.skip);
 
         return coins.data;
       },

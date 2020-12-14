@@ -21,7 +21,7 @@ type Mutation {
 }
 
 type Query {
-  coins: [Coin!]
+  coins(limit: Int!, skip: Int!): [Coin!]
   hello(name: String): String
   me: User!
 }

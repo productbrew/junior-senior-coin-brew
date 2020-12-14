@@ -5,12 +5,18 @@ import schema from './graphql/schema.json';
 import { devtoolsExchange } from '@urql/devtools';
 import { MeDocument, MeQuery, VerifyOtpMutation } from './graphql/client';
 import { getToken } from './graphql/token';
+import { simplePagination } from '@urql/exchange-graphcache/extras';
 
 export const cache = offlineExchange({
   // TODO: check typescript
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   schema,
+  resolvers: {
+    Query: {
+      coins: simplePagination(),
+    },
+  },
   updates: {
     Mutation: {
       verifyOtp: (result, _args, cache) => {

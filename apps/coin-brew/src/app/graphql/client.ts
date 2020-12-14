@@ -29,6 +29,11 @@ export type QueryHelloArgs = {
   name: Maybe<Scalars['String']>;
 };
 
+export type QueryCoinsArgs = {
+  limit: Scalars['Int'];
+  skip: Scalars['Int'];
+};
+
 export type Coin = {
   __typename: 'Coin';
   id: Scalars['ID'];
@@ -66,7 +71,10 @@ export type AuthPayload = {
   user: User;
 };
 
-export type CoinsQueryVariables = Exact<{ [key: string]: never }>;
+export type CoinsQueryVariables = Exact<{
+  limit: Scalars['Int'];
+  skip: Scalars['Int'];
+}>;
 
 export type CoinsQuery = { __typename: 'Query' } & {
   coins: Maybe<
@@ -118,8 +126,8 @@ export const UserFragmentDoc = gql`
   }
 `;
 export const CoinsDocument = gql`
-  query coins {
-    coins {
+  query coins($limit: Int!, $skip: Int!) {
+    coins(limit: $limit, skip: $skip) {
       id
       name
       price

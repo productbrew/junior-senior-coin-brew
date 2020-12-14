@@ -115,6 +115,10 @@ export interface NexusGenArgTypes {
     }
   }
   Query: {
+    coins: { // args
+      limit: number; // Int!
+      skip: number; // Int!
+    }
     hello: { // args
       name?: string | null; // String
     }

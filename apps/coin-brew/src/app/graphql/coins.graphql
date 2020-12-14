@@ -1,5 +1,5 @@
-query coins {
-  coins {
+query coins($limit: Int!, $skip: Int!) {
+  coins(limit: $limit, skip: $skip) {
     id
     name
     price
