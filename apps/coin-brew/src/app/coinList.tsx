@@ -25,10 +25,6 @@ export function CoinList() {
     setSelectedCurrency(currency);
   }
 
-  function setNextDataPart(page: number) {
-    setSkip(page);
-  }
-
   if (coinsResult.error) {
     return <Error>{coinsResult.error.message}</Error>;
   }
@@ -51,7 +47,7 @@ export function CoinList() {
             {skip > 0 && <Loading />}
           </LoadingContainer>
         }
-        loadMore={setNextDataPart}
+        loadMore={setSkip}
         hasMore={true}
       >
         <List
@@ -84,7 +80,7 @@ export function CoinList() {
               >
                 <Card.Meta
                   title={`${item.name} (${item.currency})`}
-                  description={`Price: $${Number(item.price).toFixed(2)}`}
+                  description={`Price: $${Number(item.price).toFixed(6)}`}
                 />
               </StyledCard>
             </List.Item>
