@@ -1,7 +1,17 @@
 import { Types } from 'mongoose';
-import { nonNull, queryType, stringArg } from '@nexus/schema';
+import { nonNull, queryType, stringArg, objectType } from '@nexus/schema';
 import { logger } from '@junior-senior-coin-brew/logger';
 import { User } from './user';
+
+export const HealthCheck = objectType({
+  name: 'HealthCheck',
+  definition(t) {
+    t.id('id');
+    t.field('name', {
+      type: nonNull('String'),
+    });
+  },
+});
 
 export const Query = queryType({
   definition(t) {
@@ -24,12 +34,16 @@ export const Query = queryType({
       },
     });
 
-    t.string('hello', {
+    t.field('hello', {
+      type: HealthCheck,
       args: {
-        name: stringArg(),
+        name: nonNull(stringArg()),
       },
       resolve: async (_parent, args) => {
-        return `Hello ${args.name || 'World'} !`;
+        return {
+          id: '1',
+          name: `Hello ${args.name || 'World'} !`,
+        };
       },
     });
   },

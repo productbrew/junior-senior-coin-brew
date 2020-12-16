@@ -32,6 +32,10 @@ export interface NexusGenObjects {
     user: NexusGenRootTypes['User']; // User!
   }
   Coin: RootTypes.Coin;
+  HealthCheck: { // root type
+    id?: string | null; // ID
+    name: string; // String!
+  }
   Market: RootTypes.Market;
   MarketCupHistory: RootTypes.MarketCupHistory;
   Mutation: {};
@@ -58,16 +62,23 @@ export interface NexusGenFieldTypes {
     currency: string; // String!
     id: string; // ID!
     logoUrl: string; // String!
-    market: NexusGenRootTypes['Market'][]; // [Market!]!
+    markets: NexusGenRootTypes['Market'][]; // [Market!]!
     name: string; // String!
     price: string; // String!
+  }
+  HealthCheck: { // field return type
+    id: string | null; // ID
+    name: string; // String!
   }
   Market: { // field return type
     base: string; // String!
     exchange: string; // String!
+    id: string; // ID!
+    market: string; // String!
     quote: string; // String!
   }
   MarketCupHistory: { // field return type
+    id: string; // ID!
     timestamp: string; // String!
     value: string; // String!
   }
@@ -77,7 +88,7 @@ export interface NexusGenFieldTypes {
   }
   Query: { // field return type
     coins: NexusGenRootTypes['Coin'][] | null; // [Coin!]
-    hello: string | null; // String
+    hello: NexusGenRootTypes['HealthCheck'] | null; // HealthCheck
     marketCupHistory: NexusGenRootTypes['MarketCupHistory'][] | null; // [MarketCupHistory!]
     me: NexusGenRootTypes['User']; // User!
   }
@@ -98,16 +109,23 @@ export interface NexusGenFieldTypeNames {
     currency: 'String'
     id: 'ID'
     logoUrl: 'String'
-    market: 'Market'
+    markets: 'Market'
     name: 'String'
     price: 'String'
+  }
+  HealthCheck: { // field return type name
+    id: 'ID'
+    name: 'String'
   }
   Market: { // field return type name
     base: 'String'
     exchange: 'String'
+    id: 'ID'
+    market: 'String'
     quote: 'String'
   }
   MarketCupHistory: { // field return type name
+    id: 'ID'
     timestamp: 'String'
     value: 'String'
   }
@@ -117,7 +135,7 @@ export interface NexusGenFieldTypeNames {
   }
   Query: { // field return type name
     coins: 'Coin'
-    hello: 'String'
+    hello: 'HealthCheck'
     marketCupHistory: 'MarketCupHistory'
     me: 'User'
   }
@@ -144,7 +162,7 @@ export interface NexusGenArgTypes {
       skip: number; // Int!
     }
     hello: { // args
-      name?: string | null; // String
+      name: string; // String!
     }
   }
 }

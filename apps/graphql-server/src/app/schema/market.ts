@@ -6,16 +6,14 @@ export const Market = objectType({
     output: true,
   },
   definition(t) {
-    t.string('base', {
-      resolve: (root) => root.base,
+    t.id('id', {
+      resolve: (root) => {
+        return `${root.market}-${root.base}-${root.exchange}-${root.quote}`;
+      },
     });
-
-    t.string('exchange', {
-      resolve: (root) => root.exchange,
-    });
-
-    t.string('quote', {
-      resolve: (root) => root.quote,
-    });
+    t.string('market');
+    t.string('base');
+    t.string('exchange');
+    t.string('quote');
   },
 });

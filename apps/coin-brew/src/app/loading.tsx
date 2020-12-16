@@ -1,11 +1,14 @@
 import * as React from 'react';
 import styled from '@emotion/styled';
+import { useMeQuery } from './graphql/client';
 
 type LoadingProps = {
   fullPage?: boolean;
 };
 
 function Loading({ fullPage }: LoadingProps) {
+  const [meResult] = useMeQuery();
+
   if (fullPage) {
     return (
       <FullPageCenter>

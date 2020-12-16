@@ -18,16 +18,22 @@ export type Scalars = {
   Float: number;
 };
 
+export type HealthCheck = {
+  __typename: 'HealthCheck';
+  id: Maybe<Scalars['ID']>;
+  name: Scalars['String'];
+};
+
 export type Query = {
   __typename: 'Query';
   me: User;
-  hello: Maybe<Scalars['String']>;
+  hello: Maybe<HealthCheck>;
   coins: Maybe<Array<Coin>>;
   marketCupHistory: Maybe<Array<MarketCupHistory>>;
 };
 
 export type QueryHelloArgs = {
-  name: Maybe<Scalars['String']>;
+  name: Scalars['String'];
 };
 
 export type QueryCoinsArgs = {
@@ -42,7 +48,7 @@ export type Coin = {
   name: Scalars['String'];
   logoUrl: Scalars['String'];
   price: Scalars['String'];
-  market: Array<Market>;
+  markets: Array<Market>;
 };
 
 export type Mutation = {
@@ -75,6 +81,8 @@ export type AuthPayload = {
 
 export type Market = {
   __typename: 'Market';
+  id: Scalars['ID'];
+  market: Scalars['String'];
   base: Scalars['String'];
   exchange: Scalars['String'];
   quote: Scalars['String'];
@@ -82,6 +90,7 @@ export type Market = {
 
 export type MarketCupHistory = {
   __typename: 'MarketCupHistory';
+  id: Scalars['ID'];
   timestamp: Scalars['String'];
   value: Scalars['String'];
 };
@@ -97,7 +106,14 @@ export type CoinsQuery = { __typename: 'Query' } & {
       { __typename: 'Coin' } & Pick<
         Coin,
         'id' | 'name' | 'price' | 'currency' | 'logoUrl'
-      >
+      > & {
+          markets: Array<
+            { __typename: 'Market' } & Pick<
+              Market,
+              'id' | 'market' | 'base' | 'exchange' | 'quote'
+            >
+          >;
+        }
     >
   >;
 };
@@ -118,7 +134,7 @@ export type MarketCupHistoryQuery = { __typename: 'Query' } & {
     Array<
       { __typename: 'MarketCupHistory' } & Pick<
         MarketCupHistory,
-        'timestamp' | 'value'
+        'id' | 'timestamp' | 'value'
       >
     >
   >;
@@ -161,6 +177,13 @@ export const CoinsDocument = gql`
       price
       currency
       logoUrl
+      markets {
+        id
+        market
+        base
+        exchange
+        quote
+      }
     }
   }
 `;
@@ -182,6 +205,7 @@ export function useLoginMutation() {
 export const MarketCupHistoryDocument = gql`
   query marketCupHistory {
     marketCupHistory {
+      id
       timestamp
       value
     }

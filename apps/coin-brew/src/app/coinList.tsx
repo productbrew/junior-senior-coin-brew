@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import styled from '@emotion/styled';
 import { Modal, List, Card, Image } from 'antd';
 import InfiniteScroll from 'react-infinite-scroller';
-import { useCoinsQuery } from './graphql/client';
+import { useCoinsQuery, Coin } from './graphql/client';
 import Error from './error';
 import Loading from './loading';
 
 export function CoinList() {
   const [skip, setSkip] = useState(0);
-  const [selectedCurrency, setSelectedCurrency] = useState<string | null>(null);
+  const [selectedCurrency, setSelectedCurrency] = useState<Coin | undefined>();
 
   const [coinsResult] = useCoinsQuery({
     variables: {
@@ -17,12 +17,24 @@ export function CoinList() {
     },
   });
 
+  const getUniqueExchanges = useMemo(() => {
+    const exchanges = selectedCurrency?.markets.map(
+      (market) => market.exchange
+    );
+
+    return [...new Set(exchanges)];
+  }, [selectedCurrency]);
+
   function hideModal() {
-    setSelectedCurrency(null);
+    setSelectedCurrency(undefined);
   }
 
   function showModal(currency: string) {
-    setSelectedCurrency(currency);
+    const selectedCoin = coinsResult.data?.coins?.find(
+      (coin) => coin.currency === currency
+    );
+
+    setSelectedCurrency(selectedCoin);
   }
 
   if (coinsResult.error) {
@@ -32,13 +44,21 @@ export function CoinList() {
   return (
     <Container>
       <Modal
-        title={`${selectedCurrency} details`}
-        visible={selectedCurrency !== null}
+        title={`${selectedCurrency?.currency} details`}
+        visible={selectedCurrency !== undefined}
         onOk={hideModal}
         onCancel={hideModal}
       >
-        {selectedCurrency}
+        Where buy this coin:
+        <ul>
+          {getUniqueExchanges.slice(0, 10).map((exchange) => (
+            <li key={exchange}>{exchange}</li>
+          ))}
+
+          {getUniqueExchanges.length > 10 ? 'And many more..' : null}
+        </ul>
       </Modal>
+
       <InfiniteScroll
         initialLoad={false}
         pageStart={0}

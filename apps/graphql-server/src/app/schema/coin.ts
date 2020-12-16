@@ -14,12 +14,17 @@ export const Coin = objectType({
       resolve: (root) => root.logo_url,
     });
     t.string('price');
-    t.list.field('market', {
-      type: Market,
-      resolve: async (root, arg, ctx) => {
-        const market = await ctx.nomics.getMarkets(root.currency);
 
-        return market.data;
+    t.list.field('markets', {
+      type: Market,
+      resolve: async (root, _arg, ctx) => {
+        const markets = await ctx.loaders.market.load(root.currency);
+
+        if (Array.isArray(markets)) {
+          return markets;
+        }
+
+        throw new Error('No markets found');
       },
     });
   },

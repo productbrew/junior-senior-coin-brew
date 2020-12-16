@@ -5,5 +5,12 @@ query coins($limit: Int!, $skip: Int!) {
     price
     currency
     logoUrl
+    markets {
+      id
+      market
+      base
+      exchange
+      quote
+    }
   }
 }

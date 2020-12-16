@@ -24,9 +24,7 @@ Object.entries(environment).map(([key, value]) => {
  * Server instance
  */
 const app = Fastify({
-  logger: {
-    prettyPrint: !environment.production,
-  },
+  logger: false,
 });
 
 app.register(cors);

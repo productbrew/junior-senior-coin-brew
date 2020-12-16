@@ -6,6 +6,9 @@ export const MarketCupHistory = objectType({
     output: true,
   },
   definition(t) {
+    t.id('id', {
+      resolve: (root) => `${root.timestamp}-${root.market_cap}`,
+    });
     t.string('timestamp');
     t.string('value', {
       resolve: (root) => root.market_cap,
